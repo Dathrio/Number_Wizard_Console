@@ -19,25 +19,20 @@ public class NumberWizard : MonoBehaviour
     //Starts the game, used in initial start and on replay.
     void StartGame()
     {
+        max = 1000;
+        min = 1;
+        guess = UnityEngine.Random.Range(min, max + 1);
+        gameOver = false;
+
         //welcome script for the player
-        RefreshValues();
         Debug.Log("Welcome to Number Wizard");
         Debug.Log("Think of a number...");
         Debug.Log("The Lowest you can pick is: " + min);
         Debug.Log("The Highest you can pick is: " + max);
         Debug.Log("Is your number higher or lower than " + guess + "?");
         Debug.Log("Push Up = Higher, Push Down = Lower, Push Enter = Correct");
-        //fixes bug where we can never guess 1,000
+        //Fixes bug where the computer can't guess 1000;
         max = max + 1;
-    }
-
-    //Resets values for a new game
-    void RefreshValues()
-    {
-        guess = 500;
-        max = 1000;
-        min = 1;
-        gameOver = false;
     }
 
     // Update is called once per frame
@@ -80,7 +75,14 @@ public class NumberWizard : MonoBehaviour
     //calculate the next guess
     void NextGuess()
     {
-        guess = (min + max) / 2;
-        Debug.Log("I was just warming up... My real gues is: " + guess);
+        if (min == max)
+        {
+            guess = min;
+        }
+        else
+        {
+            guess = UnityEngine.Random.Range(min, max);
+            Debug.Log("I was just warming up... My real gues is: " + guess);
+        }
     }
 } // End Class
