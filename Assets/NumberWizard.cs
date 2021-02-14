@@ -9,6 +9,7 @@ public class NumberWizard : MonoBehaviour
     int max;
     int min;
     int guess;
+    bool gameOver;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,11 +31,13 @@ public class NumberWizard : MonoBehaviour
         max = max + 1;
     }
 
+    //Resets values for a new game
     void RefreshValues()
     {
         guess = 500;
         max = 1000;
         min = 1;
+        gameOver = false;
     }
 
     // Update is called once per frame
@@ -54,17 +57,30 @@ public class NumberWizard : MonoBehaviour
             NextGuess();
         }
 
-        //Computer won | restart the game
+        //Computer won | restart or Exit the game
         else if (Input.GetKeyDown(KeyCode.Return))
         {
             Debug.Log("I told you I could guess it.");
+            Debug.Log("Would you like to play again?");
+            Debug.Log("Press Y for Yes or N for No");
+            gameOver = true;
+        }
+        else if (Input.GetKeyDown(KeyCode.Y) && gameOver == true)
+        {
             StartGame();
         }
-    }
+        else if (Input.GetKeyDown(KeyCode.N) && gameOver == true)
+        {
+            Debug.Log("Thanks for playing!");
+            Application.Quit();
+        }
 
+    } // End Update
+
+    //calculate the next guess
     void NextGuess()
     {
         guess = (min + max) / 2;
         Debug.Log("I was just warming up... My real gues is: " + guess);
     }
-}
+} // End Class
