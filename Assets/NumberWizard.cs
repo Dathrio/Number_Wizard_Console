@@ -6,13 +6,20 @@ using UnityEngine;
 public class NumberWizard : MonoBehaviour
 {
     // initialize key variables
-    int max = 1000;
-    int min = 1;
-    int guess = 500;
+    int max;
+    int min;
+    int guess;
     // Start is called before the first frame update
     void Start()
     {
+        StartGame();
+    }
+
+    //Starts the game, used in initial start and on replay.
+    void StartGame()
+    {
         //welcome script for the player
+        RefreshValues();
         Debug.Log("Welcome to Number Wizard");
         Debug.Log("Think of a number...");
         Debug.Log("The Lowest you can pick is: " + min);
@@ -23,6 +30,13 @@ public class NumberWizard : MonoBehaviour
         max = max + 1;
     }
 
+    void RefreshValues()
+    {
+        guess = 500;
+        max = 1000;
+        min = 1;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -30,22 +44,27 @@ public class NumberWizard : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             min = guess;
-            guess = (min + max) / 2;
-            Debug.Log("I was just warming up... My real gues is: " + guess);
+            NextGuess();
         }
 
         //Detect when the down arrow key is pressed down and update variables
         else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             max = guess;
-            guess = (min + max) / 2;
-            Debug.Log("You're a sneaky one! But your number is: " + guess);
+            NextGuess();
         }
 
         //Computer won | restart the game
         else if (Input.GetKeyDown(KeyCode.Return))
         {
             Debug.Log("I told you I could guess it.");
+            StartGame();
         }
+    }
+
+    void NextGuess()
+    {
+        guess = (min + max) / 2;
+        Debug.Log("I was just warming up... My real gues is: " + guess);
     }
 }
